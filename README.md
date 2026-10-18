@@ -1,0 +1,2 @@
+# SolarEnergyPredict
+for thesis
