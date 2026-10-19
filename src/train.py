@@ -1,4 +1,7 @@
+
 from pathlib import Path
+import subprocess
+import sys
 
 from data_loader import load_all_cities
 
@@ -12,7 +15,7 @@ def main():
         )
 
     city_dfs, cfg = load_all_cities(config_path)
-    datetime_col = cfg["data"]["columns"]["datetime"]
+    datetime_col = "datetime"
     target_col = cfg["data"]["columns"]["target"]
 
     print("\n[INFO] Eğitim öncesi hızlı kontrol")
@@ -21,12 +24,9 @@ def main():
         print(f"  datetime min/max: {df[datetime_col].min()} / {df[datetime_col].max()}")
         print(f"  target null ratio: {df[target_col].isna().mean():.4f}")
 
-    # TODO:
-    # 1) preprocessing
-    # 2) sequence creation
-    # 3) baseline LSTM
-    # 4) hybrid models
-    # 5) evaluation & save metrics
+    print("\n[INFO] Preprocess başlatılıyor...")
+    subprocess.check_call([sys.executable, "src/preprocess.py"])
+    print("[INFO] Preprocess tamamlandı. Sonraki adım: LSTM baseline.")
 
 
 if __name__ == "__main__":
